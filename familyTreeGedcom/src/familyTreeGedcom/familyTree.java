@@ -23,19 +23,21 @@ public class familyTree {
 					nextLine = br.readLine();
 					System.out.println("Name of the individual: " + nextLine.substring(7));
 				}
+				
+				
+				if(currentLine.startsWith("0") && currentLine.contains("@F"))
+				{
+					nextLine = br.readLine();
+					newLine= br.readLine();
+					husb = nextLine.substring(7);
+					wife= newLine.substring(7);
+					System.out.println("Husb: " + husb);
+					System.out.println("Wife: " + wife);
+				}
 			}
 			
 			
 		
-			while((currLine = br.readLine()) != null)
-			{
-				if(currLine.startsWith("0") && currLine.contains("@F"))
-				{
-					newLine = br.readLine();
-					id = newLine.substring(7);
-					System.out.println("ID: " + id);
-				}
-			}
 		}
 		catch(IOException e)
 		{
