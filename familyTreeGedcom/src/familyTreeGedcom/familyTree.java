@@ -8,6 +8,7 @@ public class familyTree {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		HashMap<String,String> family = new HashMap<String,String>();
 		BufferedReader br = null;		
 		
 		try
@@ -20,8 +21,15 @@ public class familyTree {
 			{
 				if(currentLine.startsWith("0") && currentLine.contains("@I"))
 				{
-					nextLine = br.readLine();
-					System.out.println("Name of the individual: " + nextLine.substring(7));
+				id = currentLine.substring(3, 6);
+					newLine = br.readLine();
+					name = newLine.substring(7);
+					
+					System.out.println("ID: " + id);
+					System.out.println("Name of the individual: " + name);
+					
+					family.put(id,name);
+
 				}
 				
 				
