@@ -6,7 +6,9 @@ public class Family {
 	private String _wife;
 	
 	public void SetHusband(String husband) {
-		_husband = husband;		
+		_husband = husband;
+			private String _husband;
+	private String _wife;
 	}
 	
 	public String GetHusband () {
