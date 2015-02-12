@@ -7,8 +7,7 @@ public class Family {
 	
 	public void SetHusband(String husband) {
 		_husband = husband;
-			private String _husband;
-	private String _wife;
+		
 	}
 	
 	public String GetHusband () {
