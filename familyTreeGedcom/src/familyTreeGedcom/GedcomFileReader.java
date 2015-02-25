@@ -1,5 +1,6 @@
 package familyTreeGedcom;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -9,10 +10,10 @@ public class GedcomFileReader {
 
 	/* Member variables */
 	private String _inputFileName;
-	private HashMap<String, Individual> _individuals;
+	private HashMap<String, ArrayList<Individual>> _individuals;
 	private HashMap<String, Family>		_families;
 	
-	public HashMap<String, Individual> GetIndividuals() {
+	public HashMap<String, ArrayList<Individual>> GetIndividuals() {
 		// TODO Auto-generated method stub
 		return this._individuals;
 	}
@@ -26,7 +27,7 @@ public class GedcomFileReader {
 	/* Constructor */
 	public GedcomFileReader(String inputFileName) {		
 		_inputFileName = inputFileName;
-		_individuals = new HashMap<String, Individual>();
+		_individuals = new HashMap<String, ArrayList<Individual>>();
 		_families = new HashMap<String, Family>();
 	}
 
@@ -38,7 +39,7 @@ public class GedcomFileReader {
 		
 		try
 		{
-			String currentLine,nextLine;
+			String currentLine;
 			br = new BufferedReader(new FileReader(_inputFileName));			
 			
 			// Read every line in the file
@@ -49,27 +50,15 @@ public class GedcomFileReader {
 				String [] currentLineSplits = currentLine.split(" ");
 				if(currentLine.startsWith("0") && currentLineSplits.length > 2 && currentLine.split(" ")[2].equals("INDI"))
 				{
-					Individual newIndividual = new Individual();
-					String id = currentLine.split(" ")[1];
-					nextLine = br.readLine();					
-					newIndividual.SetName(nextLine.substring(7).replace("/", ""));	
-					this._individuals.put(id, newIndividual);
+					addNewIndividual(br, currentLine);
 				}
 				
+				/* Don't need to worry about families for now 
 				// Identify the lines about Families and store the information
 				if(currentLine.startsWith("0") && currentLineSplits.length > 2 && currentLine.split(" ")[2].equals("FAM"))
 				{
-					Family newFamily = new Family();
-					String id = currentLine.split(" ")[1];
-					
-					// Read the next two lines to get the husband and wife
-					String husbandInfo = br.readLine();
-					String wifeInfo = br.readLine();
-					
-					newFamily.SetHusband(husbandInfo.substring(7));
-					newFamily.SetWife(wifeInfo.substring(7));
-					this._families.put(id,  newFamily);
-				}				
+					addNewFamily(br, currentLine);
+				}*/			
 			}			
 		}
 		catch(IOException e)
@@ -89,5 +78,54 @@ public class GedcomFileReader {
 				ie.printStackTrace();
 			}
 		}		
+	}
+
+	private void addNewFamily(BufferedReader br, String currentLine)
+			throws IOException {
+		Family newFamily = new Family();
+		String id = currentLine.split(" ")[1];
+		
+		// Read the next two lines to get the husband and wife
+		String husbandInfo = br.readLine();
+		String wifeInfo = br.readLine();
+		
+		newFamily.SetHusband(husbandInfo.substring(7));
+		newFamily.SetWife(wifeInfo.substring(7));
+		this._families.put(id,  newFamily);
+	}
+
+	private void addNewIndividual(BufferedReader br, String currentLine)
+			throws IOException {
+		
+		String nextLine;
+		
+		// create new individual and set identifier
+		String id = currentLine.split(" ")[1];
+		Individual newIndividual = new Individual(id);			
+		
+		do {
+			// get name
+			nextLine = br.readLine();
+			
+			if (nextLine.contains("NAME"))
+				newIndividual.SetName(nextLine.substring(7).replace("/", ""));
+			
+			// TODO: get date of birth
+			
+			// TODO: get date of death
+			
+		}while (!nextLine.contains("@F"));		
+		
+		
+		// add new individual to the HashMap
+		if (this._individuals.containsKey(id)) {
+			ArrayList<Individual> array = this._individuals.get(id);
+			array.add(newIndividual);
+			this._individuals.put(id, array);
+		} else {
+			ArrayList<Individual> array = new ArrayList<Individual>();
+			array.add(newIndividual);
+			this._individuals.put(id, array);					
+		}
 	}
 }
