@@ -1,7 +1,11 @@
 package familyTreeGedcom;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class Validator {
 
@@ -16,7 +20,10 @@ public class Validator {
 	public void ValidateIndividuals() {
 		// TODO Auto-generated method stub
 		
+		Date birthdate=null,deathdate=null;
+		DateFormat format =  new SimpleDateFormat("yyyy-MM-dd"/*, Locale.ENGLISH*/);
 		// 
+		
 		for (String id : _individuals.keySet()) {
 			ArrayList<Individual> array = _individuals.get(id);
 			
@@ -26,6 +33,22 @@ public class Validator {
 			
 					
 			// 2) check if Individual birth date is after death date
+			
+			Individual individual = array.get(0);
+			birthdate = individual.GetDateOfBirth();
+			deathdate = individual.GetDateOfDeath();
+			System.out.println("birth: " + format.format(birthdate));
+			
+			if (deathdate != null) {
+				System.out.println("death: " + format.format(deathdate));
+			} else {
+				System.out.println("death: ");
+			}
+			
+			if(deathdate != null && birthdate.after(deathdate))
+			{
+				_errorList.add("Death before birth for the individual with identifier" + id);
+			}
 			// Individual individual = array.get(0);
 			//if (individual.GetDateOfBirth() > individual.GetDateOfDeath())
 		}		

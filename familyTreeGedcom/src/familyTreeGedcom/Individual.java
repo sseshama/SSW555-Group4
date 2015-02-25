@@ -38,11 +38,11 @@ public class Individual {
 	}
 	
 	public void SetDateOfDeath (Date dateOfDeath) {
-		this._dateOfBirth = dateOfDeath;
+		this._dateOfDeath = dateOfDeath;
 	}
 	
 	public Date GetDateOfDeath () {
-		return this._dateOfBirth;
+		return this._dateOfDeath;
 	}
 	
 	

@@ -1,7 +1,12 @@
 package familyTreeGedcom;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -22,6 +27,8 @@ public class GedcomFileReader {
 		// TODO Auto-generated method stub
 		return this._families;
 	}
+	
+	
 	
 	
 	/* Constructor */
@@ -94,6 +101,66 @@ public class GedcomFileReader {
 		this._families.put(id,  newFamily);
 	}
 
+	private String getMonth(String mnth)
+	{
+		String month="0";
+		switch(mnth)
+			{
+				case "JAN": month = "01";
+				break;
+				case "FEB": month = "02"; 
+				break;
+				case "MAR": month = "03"; 
+				break;
+				case "APR": month = "04"; 
+				break;
+				case "MAY": month = "05"; 
+				break;
+				case "JUN": month = "06"; 
+				break;
+				case "JUL": month = "07"; 
+				break;
+				case "AUG": month = "08"; 
+				break;
+				case "SEP": month = "09"; 
+				break;
+				case "OCT": month = "10"; 
+				break;
+				case "NOV": month = "11"; 
+				break;
+				case "DEC": month = "12"; 
+				break;	
+			}
+		
+		return month;
+	}
+	
+	private Date convertToDate(String line)
+	{
+		String dateAsString;
+		Date date = null;
+		String line1 = line.substring(7);
+		System.out.println("Line1: "+line1);
+		String [] splitDate = line1.split(" ");
+		String year = splitDate[2];
+		String mnth = splitDate[1];
+		String month = getMonth(mnth);
+		String day = splitDate[0];
+		dateAsString = String.format("%s-%s-%s", year,month,day);
+		System.out.println("dateAsString: "+dateAsString);
+		
+		DateFormat format = new SimpleDateFormat("yyyy-MM-dd"/*, Locale.ENGLISH*/);
+		try {
+			date = format.parse(dateAsString);
+			System.out.println("DAte: "+format.format(date));
+			} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return date;
+	}
+	
 	private void addNewIndividual(BufferedReader br, String currentLine)
 			throws IOException {
 		
@@ -101,7 +168,9 @@ public class GedcomFileReader {
 		
 		// create new individual and set identifier
 		String id = currentLine.split(" ")[1];
-		Individual newIndividual = new Individual(id);			
+		Individual newIndividual = new Individual(id);	
+		Date birth_date, death_date;
+		
 		
 		do {
 			// get name
@@ -111,8 +180,21 @@ public class GedcomFileReader {
 				newIndividual.SetName(nextLine.substring(7).replace("/", ""));
 			
 			// TODO: get date of birth
+			if(nextLine.contains("BIRT"))
+			{
+				nextLine = br.readLine();
+				birth_date = convertToDate(nextLine);
+				newIndividual.SetDateOfBirth(birth_date);
+			}
+				
 			
 			// TODO: get date of death
+			if(nextLine.contains("DEAT"))
+			{
+				nextLine = br.readLine();
+				death_date = convertToDate(nextLine);
+				newIndividual.SetDateOfDeath(death_date);
+			}
 			
 		}while (!nextLine.contains("@F"));		
 		
