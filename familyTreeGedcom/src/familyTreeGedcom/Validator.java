@@ -22,7 +22,7 @@ public class Validator {
 			
 			// 1) check for unique identifiers
 			if (array.size() > 1)
-				_errorList.add("Duplicate Identifer");
+				_errorList.add(String.format("Duplicate Identifer: There are multiple individuals with the identifier %s", id));
 			
 					
 			// 2) check if Individual birth date is after death date
