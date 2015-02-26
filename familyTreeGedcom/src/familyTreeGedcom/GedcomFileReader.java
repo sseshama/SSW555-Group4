@@ -140,19 +140,23 @@ public class GedcomFileReader {
 		String dateAsString;
 		Date date = null;
 		String line1 = line.substring(7);
-		System.out.println("Line1: "+line1);
+		
 		String [] splitDate = line1.split(" ");
 		String year = splitDate[2];
 		String mnth = splitDate[1];
 		String month = getMonth(mnth);
 		String day = splitDate[0];
 		dateAsString = String.format("%s-%s-%s", year,month,day);
+		
+		/* For debugging
+		System.out.println("Line1: "+line1);
 		System.out.println("dateAsString: "+dateAsString);
+		*/
 		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd"/*, Locale.ENGLISH*/);
 		try {
 			date = format.parse(dateAsString);
-			System.out.println("DAte: "+format.format(date));
+			// Debugging: System.out.println("DAte: "+format.format(date));
 			} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

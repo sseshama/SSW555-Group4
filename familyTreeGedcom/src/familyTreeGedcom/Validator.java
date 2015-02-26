@@ -37,17 +37,20 @@ public class Validator {
 			Individual individual = array.get(0);
 			birthdate = individual.GetDateOfBirth();
 			deathdate = individual.GetDateOfDeath();
+			
+			/* For debugging purposes
 			System.out.println("birth: " + format.format(birthdate));
 			
 			if (deathdate != null) {
 				System.out.println("death: " + format.format(deathdate));
 			} else {
 				System.out.println("death: ");
-			}
+			}*/
 			
 			if(deathdate != null && birthdate.after(deathdate))
 			{
-				_errorList.add("Death before birth for the individual with identifier" + id);
+				_errorList.add(String.format("Individual %s (%s) has death date (%s) before birth date (%s)",
+						id, individual.GetName(), format.format(deathdate), format.format(birthdate)));
 			}
 			// Individual individual = array.get(0);
 			//if (individual.GetDateOfBirth() > individual.GetDateOfDeath())
