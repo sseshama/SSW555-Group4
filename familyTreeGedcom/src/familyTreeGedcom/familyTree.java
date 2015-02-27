@@ -10,11 +10,12 @@ public class familyTree {
 		// Specify the file name for reading
 		String inputFileName = "Resources/My-Family-6-Feb-2015.ged";
 		
+		//Using HashMap
 		// Read the file and store the information in a HashMap
 		GedcomFileReader reader = new GedcomFileReader(inputFileName);
 		reader.GetIndividualAndFamilyInformation();
 		HashMap<String, ArrayList<Individual>> individuals = reader.GetIndividuals();
-		
+	
 		//HashMap<String, Family> families = reader.GetFamilies();		
 		/* Print the information stored in the HashMap
 		GedcomFileInfoPrinter printer = new GedcomFileInfoPrinter(individuals, families);
