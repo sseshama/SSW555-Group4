@@ -10,7 +10,7 @@ public class Functions
 		int line = 1;
 		String text,text1;
 		String identifiers[];
-		while(line > 0 && line <file.size())
+		(line > 0 && line <file.size())
 		{
 			String data = file.get(line);
 			//System.out.println(data);
