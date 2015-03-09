@@ -60,12 +60,12 @@ public class GedcomFileReader {
 					addNewIndividual(br, currentLine);
 				}
 				
-				/* Don't need to worry about families for now 
+				/* Don't need to worry about families for now */
 				// Identify the lines about Families and store the information
 				if(currentLine.startsWith("0") && currentLineSplits.length > 2 && currentLine.split(" ")[2].equals("FAM"))
 				{
 					addNewFamily(br, currentLine);
-				}*/			
+				}	
 			}			
 		}
 		catch(IOException e)
@@ -135,7 +135,7 @@ public class GedcomFileReader {
 		return month;
 	}
 	
-	private Date convertToDate(String line)
+	private DateObject convertToDate(String line)
 	{
 		String dateAsString;
 		Date date = null;
@@ -153,16 +153,20 @@ public class GedcomFileReader {
 		System.out.println("dateAsString: "+dateAsString);
 		*/
 		
+		String errorMessage = "";
+		
 		DateFormat format = new SimpleDateFormat("yyyy-MM-dd"/*, Locale.ENGLISH*/);
+		// if invalid dates, then this will throw an exception
+		format.setLenient(false);
 		try {
 			date = format.parse(dateAsString);
 			// Debugging: System.out.println("DAte: "+format.format(date));
 			} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			errorMessage = line1;
 		}
 		
-		return date;
+		return new DateObject(date, errorMessage);
 	}
 	
 	private void addNewIndividual(BufferedReader br, String currentLine)
@@ -173,7 +177,7 @@ public class GedcomFileReader {
 		// create new individual and set identifier
 		String id = currentLine.split(" ")[1];
 		Individual newIndividual = new Individual(id);	
-		Date birth_date, death_date;
+		DateObject birth_date, death_date;
 		
 		
 		do {
@@ -183,7 +187,6 @@ public class GedcomFileReader {
 			if (nextLine.contains("NAME"))
 				newIndividual.SetName(nextLine.substring(7).replace("/", ""));
 			
-			// TODO: get date of birth
 			if(nextLine.contains("BIRT"))
 			{
 				nextLine = br.readLine();
@@ -192,7 +195,6 @@ public class GedcomFileReader {
 			}
 				
 			
-			// TODO: get date of death
 			if(nextLine.contains("DEAT"))
 			{
 				nextLine = br.readLine();

@@ -30,10 +30,11 @@ public class familyTree {
 		if (validator.GetErrorList().isEmpty()) {
 			System.out.println("No errors with your Gedcom file");
 		} else {
-			System.out.println("The following errors are present in your Gedcom file");
+			System.out.println("The following errors are present in your Gedcom file:\n");
 			
 			for (String errorMessage : validator.GetErrorList()) {
 				System.out.println(errorMessage);
+				System.out.println();
 			}
 		}
 		

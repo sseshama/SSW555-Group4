@@ -2,18 +2,29 @@ package familyTreeGedcom;
 
 import java.util.Date;
 
+class DateObject {
+	Date _date;
+	String _errorMessage;
+	DateObject (Date date, String errorMessage) {_date = date; _errorMessage = errorMessage;}
+	
+	public Date Date() { return _date; }
+	public String ErrorMessage() { return _errorMessage; }	
+}
+
 public class Individual {
 
 	private String _identifier;
 	
 	private String _name;
 	
-	private Date _dateOfBirth;	
+	private DateObject _dateOfBirth;	
 	
-	private Date _dateOfDeath;
+	private DateObject _dateOfDeath;
 		
 	public Individual ()
 	{		
+		this._dateOfBirth = new DateObject(null, "");
+		this._dateOfDeath = new DateObject(null, "");
 	}
 	
 	public Individual (String identifier) {
@@ -29,19 +40,19 @@ public class Individual {
 		return this._identifier;
 	}
 	
-	public void SetDateOfBirth (Date dateOfBirth) {
+	public void SetDateOfBirth (DateObject dateOfBirth) {
 		this._dateOfBirth = dateOfBirth;
 	}
 	
-	public Date GetDateOfBirth () {
+	public DateObject GetDateOfBirth () {
 		return this._dateOfBirth;
 	}
 	
-	public void SetDateOfDeath (Date dateOfDeath) {
+	public void SetDateOfDeath (DateObject dateOfDeath) {
 		this._dateOfDeath = dateOfDeath;
 	}
 	
-	public Date GetDateOfDeath () {
+	public DateObject GetDateOfDeath () {
 		return this._dateOfDeath;
 	}
 	
