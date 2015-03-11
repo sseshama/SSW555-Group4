@@ -110,14 +110,14 @@ public class Validator {
 				Date cdob = child.GetDateOfBirth().Date();
 				 if(cdob != null && hdob != null && cdob.before(hdob) )
 				 {
-					 _errorList.add(String.format("Father's date of birth is (%s) and child's date of birth is (%s)", format.format(hdob), format.format(cdob)));
+					 _errorList.add(String.format("Father's age must be more than child's age"));
 				 }
 				
 				// 2) check that child's DOB > wife's DOB	
 								 
 				 if(cdob != null && wdob != null && cdob.before(wdob))
 				 {
-					 _errorList.add(String.format("Mother's date of birth is (%s) and child's date of birth is (%s)", format.format(wdob), format.format(cdob))); 
+					 _errorList.add(String.format("Mother's age must be more than child's age")); 
 				 }
 			}
 			
