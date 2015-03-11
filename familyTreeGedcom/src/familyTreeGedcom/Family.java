@@ -1,11 +1,13 @@
 package familyTreeGedcom;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Family {
 
 	private String _husband;
 	private String _wife;
+	private DateObject _marriageDate;
 	private ArrayList<String> _children;
 	
 	public void SetHusband(String husband) {
@@ -24,6 +26,19 @@ public class Family {
 	
 	public String GetWife () {
 		return _wife;
+	}
+	
+	public void SetMarriageDate(DateObject mDate) {
+		_marriageDate = mDate;		
+	}
+	
+	public DateObject GetMarriageDate () {
+		if (_marriageDate == null)
+		{
+			_marriageDate = new DateObject(new Date(), "");
+		}
+	
+		return _marriageDate;
 	}
 	
 	public ArrayList<String> Children() {

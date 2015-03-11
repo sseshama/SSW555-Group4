@@ -76,6 +76,19 @@ public class Validator {
 			ArrayList<Individual> children = new ArrayList<Individual>();
 			Date hdob = husband.GetDateOfBirth().Date();
 			Date wdob = wife.GetDateOfBirth().Date();
+			Date hdod = husband.GetDateOfDeath().Date();
+			Date wdod = wife.GetDateOfDeath().Date();
+			Date mdate = family.GetMarriageDate().Date();
+			
+			if(hdod != null && mdate != null && mdate.after(hdod))
+			{
+				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", husband.GetIdentifier(),format.format(hdod),format.format(mdate)));
+			}
+			
+			if(wdod != null && mdate != null && mdate.after(wdod))
+			{
+				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", wife.GetIdentifier(),format.format(wdod),format.format(mdate)));
+			}
 			
 			for (String childKey : family.Children()) {
 				if (!(_individuals.get(childKey)).isEmpty())

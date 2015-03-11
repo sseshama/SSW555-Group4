@@ -96,6 +96,14 @@ public class GedcomFileReader {
 		newFamily.SetHusband(husbandInfo.substring(7));
 		newFamily.SetWife(wifeInfo.substring(7));	
 		
+		String nextLine = br.readLine();
+		if(nextLine.contains("MARR"))
+		{
+			String marrDate = br.readLine();
+			DateObject marDate = convertToDate(marrDate);
+			newFamily.SetMarriageDate(marDate);
+		}
+		
 		
 		String line = br.readLine();
 		while(line.contains("CHIL")) {			
