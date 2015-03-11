@@ -6,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -98,7 +97,14 @@ public class GedcomFileReader {
 		
 		newFamily.SetHusband(husbandInfo.substring(7));
 		newFamily.SetWife(wifeInfo.substring(7));
-		this._families.put(id,  newFamily);
+		
+		String line;
+		do {
+			line = br.readLine();
+			newFamily.Children().add(line.substring(7));
+		} while (line.contains("CHIL"));
+		
+		this._families.put(id,  newFamily);		
 	}
 
 	private String getMonth(String mnth)

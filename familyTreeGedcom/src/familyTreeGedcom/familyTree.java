@@ -16,7 +16,7 @@ public class familyTree {
 		reader.GetIndividualAndFamilyInformation();
 		HashMap<String, ArrayList<Individual>> individuals = reader.GetIndividuals();
 	
-		//HashMap<String, Family> families = reader.GetFamilies();		
+		HashMap<String, Family> families = reader.GetFamilies();		
 		/* Print the information stored in the HashMap
 		GedcomFileInfoPrinter printer = new GedcomFileInfoPrinter(individuals, families);
 		printer.PrintIndividuals();
@@ -24,8 +24,9 @@ public class familyTree {
 		printer.PrintHusbandsAndWives(); 
 		*/
 		
-		Validator validator = new Validator(individuals);
+		Validator validator = new Validator(individuals, families);
 		validator.ValidateIndividuals();
+		validator.ValidateFamilies();
 		
 		if (validator.GetErrorList().isEmpty()) {
 			System.out.println("No errors with your Gedcom file");
