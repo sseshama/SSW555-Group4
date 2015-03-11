@@ -12,6 +12,8 @@ public class Validator {
 	private HashMap<String, Family> _families;
 	private ArrayList<String> _errorList;
 	
+	DateFormat format =  new SimpleDateFormat("yyyy-MM-dd"/*, Locale.ENGLISH*/);
+	
 	public Validator(HashMap<String, ArrayList<Individual>> individuals, HashMap<String, Family> families) {
 		_individuals = individuals;
 		_families = families;
@@ -21,7 +23,7 @@ public class Validator {
 	public void ValidateIndividuals() {
 		// TODO Auto-generated method stub
 		
-		DateFormat format =  new SimpleDateFormat("yyyy-MM-dd"/*, Locale.ENGLISH*/);
+		
 		// 
 		
 		for (String id : _individuals.keySet()) {
@@ -83,16 +85,16 @@ public class Validator {
 			for (Individual child : children) { 
 				// 1) check that child's DOB > husband's DOB
 				Date cdob = child.GetDateOfBirth().Date();
-				 if(cdob.before(hdob))
+				 if(cdob != null && hdob != null && cdob.before(hdob) )
 				 {
-					 _errorList.add(String.format("Father's date of birth is (%s) and child's date of birth is (%s)", hdob.toString(), cdob.toString()));
+					 _errorList.add(String.format("Father's date of birth is (%s) and child's date of birth is (%s)", format.format(hdob), format.format(cdob)));
 				 }
 				
 				// 2) check that child's DOB > wife's DOB	
 								 
-				 if(cdob.before(wdob))
+				 if(cdob != null && wdob != null && cdob.before(wdob))
 				 {
-					 _errorList.add(String.format("Mother's date of birth is (%s) and child's date of birth is (%s)", wdob.toString(), cdob.toString())); 
+					 _errorList.add(String.format("Mother's date of birth is (%s) and child's date of birth is (%s)", format.format(wdob), format.format(cdob))); 
 				 }
 			}
 			
