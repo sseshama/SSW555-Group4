@@ -25,9 +25,7 @@ public class GedcomFileReader {
 	public HashMap<String, Family> GetFamilies() {
 		// TODO Auto-generated method stub
 		return this._families;
-	}
-	
-	
+	}	
 	
 	
 	/* Constructor */
@@ -96,13 +94,14 @@ public class GedcomFileReader {
 		String wifeInfo = br.readLine();
 		
 		newFamily.SetHusband(husbandInfo.substring(7));
-		newFamily.SetWife(wifeInfo.substring(7));
+		newFamily.SetWife(wifeInfo.substring(7));	
 		
-		String line;
-		do {
-			line = br.readLine();
+		
+		String line = br.readLine();
+		while(line.contains("CHIL")) {			
 			newFamily.Children().add(line.substring(7));
-		} while (line.contains("CHIL"));
+			line = br.readLine();
+		}
 		
 		this._families.put(id,  newFamily);		
 	}

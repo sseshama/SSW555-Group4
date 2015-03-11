@@ -63,21 +63,29 @@ public class Validator {
 	}
 
 	public void ValidateFamilies() {
+		
 		for (String familyId : _families.keySet()){
+			
 			
 			Family family = _families.get(familyId);			
 			Individual husband = _individuals.get(family.GetHusband()).get(0);
 			Individual wife = _individuals.get(family.GetWife()).get(0);
 			ArrayList<Individual> children = new ArrayList<Individual>();
 			
-			for (String childKey : family.Children())
-				children.add(_individuals.get(childKey).get(0));
+			for (String childKey : family.Children()) {
+				if (!(_individuals.get(childKey)).isEmpty())
+					children.add(_individuals.get(childKey).get(0));
+			}				
 			
 			for (Individual child : children) { 
 				// 1) check that child's DOB > husband's DOB
 				
 				
 				// 2) check that child's DOB > wife's DOB	
+				
+				// 3) check that wife is female
+				
+				// 4) check that husband is male				
 			}
 			
 		}
