@@ -80,6 +80,16 @@ public class Validator {
 			Date wdod = wife.GetDateOfDeath().Date();
 			Date mdate = family.GetMarriageDate().Date();
 			
+			if(hdob != null && mdate != null && mdate.before(hdob))
+			{
+				_errorList.add(String.format("Individual %s has marriage date (%s) before birth date (%s)", husband.GetIdentifier(),format.format(mdate),format.format(hdob)));
+			}
+			
+			if(wdob != null && mdate != null && mdate.before(wdob))
+			{
+				_errorList.add(String.format("Individual %s has marriage date (%s) before birth date (%s)", wife.GetIdentifier(),format.format(mdate),format.format(wdob)));
+			}
+			
 			if(hdod != null && mdate != null && mdate.after(hdod))
 			{
 				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", husband.GetIdentifier(),format.format(hdod),format.format(mdate)));
