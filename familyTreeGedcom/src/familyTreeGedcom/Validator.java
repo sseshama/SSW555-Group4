@@ -3,6 +3,7 @@ package familyTreeGedcom;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class Validator {
@@ -64,20 +65,31 @@ public class Validator {
 
 	public void ValidateFamilies() {
 		for (String familyId : _families.keySet()){
-			
+		
 			Family family = _families.get(familyId);			
 			Individual husband = _individuals.get(family.GetHusband()).get(0);
 			Individual wife = _individuals.get(family.GetWife()).get(0);
 			ArrayList<Individual> children = new ArrayList<Individual>();
+			Date hdob = husband.GetDateOfBirth().Date();
+			Date wdob = wife.GetDateOfBirth().Date();
 			
 			for (String childKey : family.Children())
 				children.add(_individuals.get(childKey).get(0));
 			
 			for (Individual child : children) { 
 				// 1) check that child's DOB > husband's DOB
-				
+				Date cdob = child.GetDateOfBirth().Date();
+				 if(cdob.before(hdob))
+				 {
+					 _errorList.add(String.format("Father's date of birth is (%s) and child's date of birth is (%s)", hdob.toString(), cdob.toString()));
+				 }
 				
 				// 2) check that child's DOB > wife's DOB	
+				 
+				 if(cdob.before(wdob))
+				 {
+					 _errorList.add(String.format("Mother's date of birth is (%s) and child's date of birth is (%s)", wdob.toString(), cdob.toString())); 
+				 }
 			}
 			
 		}
