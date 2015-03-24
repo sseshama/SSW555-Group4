@@ -23,19 +23,16 @@ public class Validator {
 	public void ValidateIndividuals() {
 		// TODO Auto-generated method stub
 		
-		
-		// 
-		
 		for (String id : _individuals.keySet()) {
 			ArrayList<Individual> array = _individuals.get(id);
 			
-			// 1) check for unique identifiers
+			//US18 check for unique identifiers
 			if (array.size() > 1)
 				_errorList.add(String.format("DUPLICATE IDENTIFIER:\nThere are multiple individuals with the identifier %s", id));
 			
 			Individual individual = array.get(0);
 			
-			// 2) Check for invalid dates			
+			//US04, US12,US13,US14 Check for invalid dates			
 			DateObject birthdate = individual.GetDateOfBirth();
 			DateObject deathdate = individual.GetDateOfDeath();
 			
@@ -47,7 +44,7 @@ public class Validator {
 				_errorList.add(String.format("INVALID DATE:\nIndividual %s has an invalid death date (%s)", id, deathdate.ErrorMessage()));
 			}
 			
-			// 3) check if Individual birth date is after death date
+			//US01 "Death before birth" check if Individual birth date is after death date
 			if(deathdate.Date() != null && birthdate.Date() != null && birthdate.Date().after(deathdate.Date()))
 			{
 				_errorList.add(String.format("DATE OF DEATH PRECEDES DATE OF BIRTH:\nIndividual %s (%s) has death date (%s) before birth date (%s)",
@@ -80,6 +77,7 @@ public class Validator {
 			Date wdod = wife.GetDateOfDeath().Date();
 			Date mdate = family.GetMarriageDate().Date();
 			
+			//US03 Marriage before birth
 			if(hdob != null && mdate != null && mdate.before(hdob))
 			{
 				_errorList.add(String.format("Individual %s has marriage date (%s) before birth date (%s)", husband.GetIdentifier(),format.format(mdate),format.format(hdob)));
@@ -90,6 +88,7 @@ public class Validator {
 				_errorList.add(String.format("Individual %s has marriage date (%s) before birth date (%s)", wife.GetIdentifier(),format.format(mdate),format.format(wdob)));
 			}
 			
+			//US02 Death before marriage
 			if(hdod != null && mdate != null && mdate.after(hdod))
 			{
 				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", husband.GetIdentifier(),format.format(hdod),format.format(mdate)));
@@ -100,20 +99,21 @@ public class Validator {
 				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", wife.GetIdentifier(),format.format(wdod),format.format(mdate)));
 			}
 			
+			
 			for (String childKey : family.Children()) {
 				if (!(_individuals.get(childKey)).isEmpty())
 					children.add(_individuals.get(childKey).get(0));
 			}				
 			
 			for (Individual child : children) { 
-				// 1) check that child's DOB > husband's DOB
+				//US09 "Father before child" check that child's DOB > husband's DOB
 				Date cdob = child.GetDateOfBirth().Date();
 				 if(cdob != null && hdob != null && cdob.before(hdob) )
 				 {
 					 _errorList.add(String.format("Father's age must be more than child's age"));
 				 }
 				
-				// 2) check that child's DOB > wife's DOB	
+				//US08 "Mother before child" check that child's DOB > wife's DOB	
 								 
 				 if(cdob != null && wdob != null && cdob.before(wdob))
 				 {

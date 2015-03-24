@@ -11,6 +11,7 @@ class DateObject {
 	public String ErrorMessage() { return _errorMessage; }	
 }
 
+//Class to store an individual's details
 public class Individual {
 
 	private String _identifier;
