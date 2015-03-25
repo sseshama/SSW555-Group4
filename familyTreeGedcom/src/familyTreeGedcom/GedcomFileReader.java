@@ -104,6 +104,13 @@ public class GedcomFileReader {
 			newFamily.SetMarriageDate(marDate);
 		}
 		
+		String nline = br.readLine();
+		if(nline.contains("DIVF"))
+		{
+			String divDate = br.readLine();
+			DateObject ddate = convertToDate(divDate);
+			newFamily.SetDivorceDate(ddate);
+		}
 		
 		String line = br.readLine();
 		while(line.contains("CHIL")) {			
@@ -213,6 +220,11 @@ public class GedcomFileReader {
 				nextLine = br.readLine();
 				death_date = convertToDate(nextLine);
 				newIndividual.SetDateOfDeath(death_date);
+			}
+			
+			if(nextLine.contains("SEX"))
+			{
+				newIndividual.SetSex(nextLine.substring(5));
 			}
 			
 		}while (!nextLine.contains("@F"));		

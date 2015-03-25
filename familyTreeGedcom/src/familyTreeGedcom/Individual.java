@@ -21,6 +21,8 @@ public class Individual {
 	private DateObject _dateOfBirth;	
 	
 	private DateObject _dateOfDeath;
+	
+	private String _sex;
 		
 	public Individual ()
 	{		
@@ -64,5 +66,15 @@ public class Individual {
 	
 	public String GetName () {
 		return this._name;
+	}
+	
+	public void SetSex(String sex)
+	{
+		this._sex = sex;
+	}
+	
+	public String GetSex()
+	{
+		return this._sex;
 	}
 }

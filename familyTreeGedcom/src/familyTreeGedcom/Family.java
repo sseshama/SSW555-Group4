@@ -8,6 +8,7 @@ public class Family {
 	private String _husband;
 	private String _wife;
 	private DateObject _marriageDate;
+	private DateObject _divorceDate;
 	private ArrayList<String> _children;
 	
 	public void SetHusband(String husband) {
@@ -39,6 +40,19 @@ public class Family {
 		}
 	
 		return _marriageDate;
+	}
+	
+	public void SetDivorceDate(DateObject dDate) {
+		_divorceDate = dDate;		
+	}
+	
+	public DateObject GetDivorceDate () {
+		if (_divorceDate == null)
+		{
+			_divorceDate = new DateObject(new Date(), "");
+		}
+	
+		return _divorceDate;
 	}
 	
 	public ArrayList<String> Children() {

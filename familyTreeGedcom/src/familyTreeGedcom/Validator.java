@@ -71,11 +71,17 @@ public class Validator {
 			Individual husband = _individuals.get(family.GetHusband()).get(0);
 			Individual wife = _individuals.get(family.GetWife()).get(0);
 			ArrayList<Individual> children = new ArrayList<Individual>();
+			String wsex = wife.GetSex();
 			Date hdob = husband.GetDateOfBirth().Date();
 			Date wdob = wife.GetDateOfBirth().Date();
 			Date hdod = husband.GetDateOfDeath().Date();
 			Date wdod = wife.GetDateOfDeath().Date();
 			Date mdate = family.GetMarriageDate().Date();
+			Date ddate = family.GetDivorceDate().Date();
+			
+			if(wsex != null){
+				System.out.println("Wife " + wsex);
+			}
 			
 			//US03 Marriage before birth
 			if(hdob != null && mdate != null && mdate.before(hdob))
@@ -99,6 +105,12 @@ public class Validator {
 				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", wife.GetIdentifier(),format.format(wdod),format.format(mdate)));
 			}
 			
+			//US15 Divorce before marriage
+			if(ddate != null && mdate != null && ddate.before(mdate));
+			{
+				System.out.println("Divorce date " + format.format(ddate));
+				_errorList.add("Divorce of an individual cannot happen before marriage");
+			}
 			
 			for (String childKey : family.Children()) {
 				if (!(_individuals.get(childKey)).isEmpty())
