@@ -72,6 +72,7 @@ public class Validator {
 			Individual wife = _individuals.get(family.GetWife()).get(0);
 			ArrayList<Individual> children = new ArrayList<Individual>();
 			String wsex = wife.GetSex();
+			String hsex = husband.GetSex();
 			Date hdob = husband.GetDateOfBirth().Date();
 			Date wdob = wife.GetDateOfBirth().Date();
 			Date hdod = husband.GetDateOfDeath().Date();
@@ -79,9 +80,6 @@ public class Validator {
 			Date mdate = family.GetMarriageDate().Date();
 			Date ddate = family.GetDivorceDate().Date();
 			
-			if(wsex != null){
-				System.out.println("Wife " + wsex);
-			}
 			
 			//US03 Marriage before birth
 			if(hdob != null && mdate != null && mdate.before(hdob))
@@ -106,10 +104,24 @@ public class Validator {
 			}
 			
 			//US15 Divorce before marriage
-			if(ddate != null && mdate != null && ddate.before(mdate));
+			if(ddate != null && mdate != null && mdate.after(ddate));
 			{
-				System.out.println("Divorce date " + format.format(ddate));
+				System.out.println("Divorce date " + format.format(ddate) + " " + format.format(mdate));
 				_errorList.add("Divorce of an individual cannot happen before marriage");
+			}
+			
+			
+			
+			//US06 Female Sex
+			if(wsex != null && !wsex.equalsIgnoreCase("F"))
+			{
+				_errorList.add("Invalid choice of sex");
+			}
+			
+			//US07 Male Sex
+			if(hsex != null && !hsex.equalsIgnoreCase("M"))
+			{
+				_errorList.add("Invalid choice of sex");
 			}
 			
 			for (String childKey : family.Children()) {
