@@ -84,30 +84,30 @@ public class Validator {
 			//US03 Marriage before birth
 			if(hdob != null && mdate != null && mdate.before(hdob))
 			{
-				_errorList.add(String.format("Individual %s has marriage date (%s) before birth date (%s)", husband.GetIdentifier(),format.format(mdate),format.format(hdob)));
+				_errorList.add(String.format("MARRIAGE DATE BEFORE BIRTH DATE:\nIndividual %s has marriage date (%s) before birth date (%s)", husband.GetIdentifier(),format.format(mdate),format.format(hdob)));
 			}
 			
 			if(wdob != null && mdate != null && mdate.before(wdob))
 			{
-				_errorList.add(String.format("Individual %s has marriage date (%s) before birth date (%s)", wife.GetIdentifier(),format.format(mdate),format.format(wdob)));
+				_errorList.add(String.format("MARRIAGE DATE BEFORE BIRTH DATE:\nIndividual %s has marriage date (%s) before birth date (%s)", wife.GetIdentifier(),format.format(mdate),format.format(wdob)));
 			}
 			
 			//US02 Death before marriage
 			if(hdod != null && mdate != null && mdate.after(hdod))
 			{
-				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", husband.GetIdentifier(),format.format(hdod),format.format(mdate)));
+				_errorList.add(String.format("DEATH DATE BEFORE MARRIAGE DATE:\nIndividual %s has date of death (%s) before marriage date (%s)", husband.GetIdentifier(),format.format(hdod),format.format(mdate)));
 			}
 			
 			if(wdod != null && mdate != null && mdate.after(wdod))
 			{
-				_errorList.add(String.format("Individual %s has date of death (%s) before marriage date (%s)", wife.GetIdentifier(),format.format(wdod),format.format(mdate)));
+				_errorList.add(String.format("DEATH DATE BEFORE MARRIAGE DATE:\nIndividual %s has date of death (%s) before marriage date (%s)", wife.GetIdentifier(),format.format(wdod),format.format(mdate)));
 			}
 			
 			//US15 Divorce before marriage
-			if(ddate != null && mdate != null && mdate.after(ddate));
+			if(ddate != null && mdate != null && mdate.after(ddate))
 			{
 				System.out.println("Divorce date " + format.format(ddate) + " " + format.format(mdate));
-				_errorList.add("Divorce of an individual cannot happen before marriage");
+				_errorList.add("DIVORCE DATE BEFORE MARRIAGE DATE:\nDivorce of an individual cannot happen before marriage");
 			}
 			
 			
@@ -134,14 +134,14 @@ public class Validator {
 				Date cdob = child.GetDateOfBirth().Date();
 				 if(cdob != null && hdob != null && cdob.before(hdob) )
 				 {
-					 _errorList.add(String.format("Father's age must be more than child's age"));
+					 _errorList.add(String.format("PARENT YOUNGER THAN CHILD:\nFather's age must be more than child's age"));
 				 }
 				
 				//US08 "Mother before child" check that child's DOB > wife's DOB	
 								 
 				 if(cdob != null && wdob != null && cdob.before(wdob))
 				 {
-					 _errorList.add(String.format("Mother's age must be more than child's age")); 
+					 _errorList.add(String.format("PARENT YOUNGER THAN CHILD:\nMother's age must be more than child's age")); 
 				 }
 			}
 			
