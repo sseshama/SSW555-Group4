@@ -92,6 +92,17 @@ public class Validator {
 				_errorList.add(String.format("MARRIAGE DATE BEFORE BIRTH DATE:\nIndividual %s has marriage date (%s) before birth date (%s)", wife.GetIdentifier(),format.format(mdate),format.format(wdob)));
 			}
 			
+			//US20 Divorce before birth
+			if(hdob != null && ddate != null && ddate.before(hdob))
+			{
+				_errorList.add(String.format("DIVORCE DATE BEFORE BIRTH DATE:\nIndividual %s has divorce date (%s) before birth date (%s)", husband.GetIdentifier(),format.format(ddate),format.format(hdob)));
+			}
+			
+			if(wdob != null && ddate != null && ddate.before(wdob))
+			{
+				_errorList.add(String.format("DIVORCE DATE BEFORE BIRTH DATE:\nIndividual %s has divorce date (%s) before birth date (%s)", wife.GetIdentifier(),format.format(ddate),format.format(wdob)));
+			}
+			
 			//US02 Death before marriage
 			if(hdod != null && mdate != null && mdate.after(hdod))
 			{
@@ -106,11 +117,9 @@ public class Validator {
 			//US15 Divorce before marriage
 			if(ddate != null && mdate != null && mdate.after(ddate))
 			{
-				System.out.println("Divorce date " + format.format(ddate) + " " + format.format(mdate));
-				_errorList.add("DIVORCE DATE BEFORE MARRIAGE DATE:\nDivorce of an individual cannot happen before marriage");
+				//System.out.println("Divorce date " + format.format(ddate) + " " + format.format(mdate));
+				_errorList.add(String.format("DIVORCE DATE BEFORE MARRIAGE DATE:\nDivorce date %s for family %s is listed as before marriage date %s", format.format(ddate), familyId, format.format(mdate)));
 			}
-			
-			
 			
 			//US06 Female Sex
 			if(wsex != null && !wsex.equalsIgnoreCase("F"))
@@ -134,14 +143,14 @@ public class Validator {
 				Date cdob = child.GetDateOfBirth().Date();
 				 if(cdob != null && hdob != null && cdob.before(hdob) )
 				 {
-					 _errorList.add(String.format("PARENT YOUNGER THAN CHILD:\nFather's age must be more than child's age"));
+					 _errorList.add(String.format("PARENT YOUNGER THAN CHILD:\nThe individual %s is listed as being the father to the individual %s but the child's birthdate %s precedes the father's birthdate %s", husband.GetIdentifier(), child.GetIdentifier(), cdob, hdob));
 				 }
 				
 				//US08 "Mother before child" check that child's DOB > wife's DOB	
 								 
 				 if(cdob != null && wdob != null && cdob.before(wdob))
 				 {
-					 _errorList.add(String.format("PARENT YOUNGER THAN CHILD:\nMother's age must be more than child's age")); 
+					 _errorList.add(String.format("PARENT YOUNGER THAN CHILD:\nThe individual %s is listed as being the mother to the individual %s but the child's birthdate %s precedes the mother's birthdate %s", wife.GetIdentifier(), child.GetIdentifier(), cdob, wdob)); 
 				 }
 			}
 			
