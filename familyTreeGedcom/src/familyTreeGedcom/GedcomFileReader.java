@@ -224,7 +224,7 @@ public class GedcomFileReader {
 			
 			if(nextLine.contains("SEX"))
 			{
-				newIndividual.SetSex(nextLine.substring(5));
+				newIndividual.SetSex(nextLine.substring(5).replace(" ", ""));
 			}
 			
 		}while (!nextLine.contains("@F"));		

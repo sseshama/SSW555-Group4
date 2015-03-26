@@ -115,13 +115,13 @@ public class Validator {
 			//US06 Female Sex
 			if(wsex != null && !wsex.equalsIgnoreCase("F"))
 			{
-				_errorList.add("Invalid choice of sex");
+				_errorList.add(String.format("INVALID SEX:\nThe individual listed as %s is listed as a wife in family %s but has Male Sex", wife.GetIdentifier(), familyId));
 			}
 			
 			//US07 Male Sex
 			if(hsex != null && !hsex.equalsIgnoreCase("M"))
 			{
-				_errorList.add("Invalid choice of sex");
+				_errorList.add(String.format("INVALID SEX:\nThe individual listed as %s is listed as a husband in family %s but has Female Sex", husband.GetIdentifier(), familyId));
 			}
 			
 			for (String childKey : family.Children()) {
